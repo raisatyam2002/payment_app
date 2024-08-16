@@ -1,6 +1,31 @@
 import AddMoneyCard from "../../components/AddMoneyCard";
 import { BalanceCard } from "../../components/BalanceCard";
-export default function () {
+import { OnRampTransactions } from "../../components/OnRampTransactions";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../lib/auth";
+import db from "@repo/db/client";
+
+async function getOnRampTransactions() {
+  const session = await getServerSession(authOptions);
+  console.log("session id ", session?.user?.id);
+
+  const txns = await db.onRampTransaction.findMany({
+    where: {
+      userId: Number(session?.user?.id),
+    },
+  });
+  return txns.map((t) => ({
+    id: t.id,
+    time: t.startTime,
+    amount: t.amount,
+    status: t.status,
+    provider: t.provider,
+  }));
+}
+export default async function () {
+  const transactions = await getOnRampTransactions();
+  console.log("transactions are  ", transactions);
+
   return (
     <div className="w-screen">
       <div className="text-4xl text-[#6a51a6] pt-8 pl-4 mb-8 font-bold">
@@ -13,7 +38,7 @@ export default function () {
         <div>
           <BalanceCard></BalanceCard>
           <div className="pt-4">
-            {/* <OnRampTransactions transactions={transactions} /> */}
+            <OnRampTransactions transactions={transactions} />
           </div>
         </div>
       </div>

@@ -8,7 +8,6 @@ export default function Home() {
 
   return (
     <div className="">
-      <AppBar signIn={signIn} signOut={signOut} user={user}></AppBar>
       <button
         onClick={() => {
           signIn();
