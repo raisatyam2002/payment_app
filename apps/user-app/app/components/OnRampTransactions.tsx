@@ -1,11 +1,14 @@
 "use client";
 import React from "react";
 import { Card } from "@repo/ui/card";
+
+import { OnRampStatus } from "@prisma/client";
+
 interface transactionInterface {
   id: number;
   time: Date;
   amount: number;
-  status: any;
+  status: OnRampStatus;
   provider: string;
 }
 export function OnRampTransactions({

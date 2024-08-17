@@ -2,6 +2,7 @@ import express from "express";
 import { Request, Response } from "express";
 import db from "@repo/db/client";
 const app = express();
+app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.json({
     message: "hi from server",
@@ -9,19 +10,27 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.post("/hdfcWebhook", async (req, res) => {
   //TODO: Add zod validation here?
+
+  console.log("req body ", req.body);
+
   const paymentInformation = {
     token: req.body.token,
     userId: req.body.user_identifier,
     amount: req.body.amount,
   };
   try {
-    await db.balance.update({
+    await db.balance.upsert({
       where: {
-        userId: paymentInformation.userId,
+        userId: Number(paymentInformation.userId),
       },
-      data: {
+      create: {
+        userId: Number(paymentInformation.userId),
+        amount: paymentInformation.amount * 100,
+        locked: 200,
+      },
+      update: {
         amount: {
-          increment: paymentInformation.amount,
+          increment: paymentInformation.amount * 100,
         },
       },
     });

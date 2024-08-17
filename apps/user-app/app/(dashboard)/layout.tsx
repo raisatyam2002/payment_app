@@ -7,7 +7,7 @@ export default function Layout({
 }): JSX.Element {
   return (
     <div className="flex">
-      <div className="w-72 min-h-screen bg-red-200 pt-28 px-4 ">
+      <div className="w-72 min-h-screen bg-gray-400 pt-28 px-4 ">
         <SideBarItem
           title="home"
           icon={<HomeIcon />}
@@ -22,6 +22,11 @@ export default function Layout({
           title="transaction"
           icon={<TransactionsIcon />}
           href="/transactions"
+        ></SideBarItem>
+        <SideBarItem
+          title="P2P TRANSFER"
+          icon={<P2PICON />}
+          href="/p2pTransfer"
         ></SideBarItem>
       </div>
       {children}
@@ -79,6 +84,24 @@ function TransactionsIcon() {
         stroke-linecap="round"
         stroke-linejoin="round"
         d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  );
+}
+function P2PICON() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      className="size-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
       />
     </svg>
   );

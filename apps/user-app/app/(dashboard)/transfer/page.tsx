@@ -5,6 +5,18 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import db from "@repo/db/client";
 
+async function getBalance() {
+  const session = await getServerSession(authOptions);
+  const balance = await db.balance.findFirst({
+    where: {
+      userId: Number(session?.user?.id),
+    },
+  });
+  return {
+    amount: balance?.amount || 0,
+    locked: balance?.locked || 0,
+  };
+}
 async function getOnRampTransactions() {
   const session = await getServerSession(authOptions);
   console.log("session id ", session?.user?.id);
@@ -24,7 +36,8 @@ async function getOnRampTransactions() {
 }
 export default async function () {
   const transactions = await getOnRampTransactions();
-  console.log("transactions are  ", transactions);
+  // console.log("transactions are  ", transactions);
+  const balance = await getBalance();
 
   return (
     <div className="w-screen">
@@ -36,7 +49,10 @@ export default async function () {
           <AddMoneyCard />
         </div>
         <div>
-          <BalanceCard></BalanceCard>
+          <BalanceCard
+            amount={balance.amount}
+            locked={balance.locked}
+          ></BalanceCard>
           <div className="pt-4">
             <OnRampTransactions transactions={transactions} />
           </div>
