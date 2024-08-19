@@ -4,6 +4,7 @@ import { OnRampTransactions } from "../../components/OnRampTransactions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import db from "@repo/db/client";
+import { useEffect } from "react";
 
 async function getBalance() {
   const session = await getServerSession(authOptions);

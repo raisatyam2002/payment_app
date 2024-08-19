@@ -29,6 +29,7 @@ export function SendMoneyCard() {
           <div className="pt-4 flex justify-center">
             <Button
               onClick={async () => {
+           
                 const res = await sendMoney({ number, amount });
                 alert(res.message);
               }}

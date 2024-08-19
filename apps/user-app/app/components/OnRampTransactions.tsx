@@ -14,9 +14,9 @@ interface transactionInterface {
 export function OnRampTransactions({
   transactions,
 }: {
-  transactions: transactionInterface[];
+  transactions: transactionInterface[] | null;
 }) {
-  if (!transactions.length) {
+  if (transactions && !transactions.length) {
     return (
       <Card title="Recent Transactions">
         <div className="text-center pb-8 pt-8">No Recent transactions</div>
@@ -26,7 +26,7 @@ export function OnRampTransactions({
     return (
       <Card title="Recent Transactions">
         <div className="pt-2">
-          {transactions.map((t) => (
+          {transactions?.map((t) => (
             <div className="flex justify-between">
               <div key={t.id}>
                 <div className="text-sm">Received INR</div>

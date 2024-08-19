@@ -18,6 +18,7 @@ export default async function sendMoney({
   number: number;
   amount: number;
 }) {
+  amount = amount * 100;
   const session = await getServerSession(authOptions);
   const senderId = Number(session?.user?.id);
   const receiverId = await getReciverId(number);
@@ -27,6 +28,7 @@ export default async function sendMoney({
     };
   }
   const tx = await db.$transaction(async (tx) => {
+    await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${senderId} FOR UPDATE`;
     const senderBalance = await tx.balance.findUnique({
       where: {
         userId: senderId,
@@ -35,6 +37,7 @@ export default async function sendMoney({
     if (!senderBalance || senderBalance.amount < amount) {
       throw new Error("Insufficient funds");
     } else {
+      await new Promise((r) => setTimeout(r, 4000));
       await tx.balance.update({
         where: {
           userId: senderId,
@@ -58,6 +61,14 @@ export default async function sendMoney({
           amount: {
             increment: amount,
           },
+        },
+      });
+      await tx.p2P.create({
+        data: {
+          senderId: senderId,
+          receiverId: receiverId,
+          amount: amount,
+          startTime: new Date(),
         },
       });
     }
