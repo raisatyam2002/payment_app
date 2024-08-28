@@ -7,7 +7,7 @@ export default function Layout({
 }): JSX.Element {
   return (
     <div className="flex">
-      <div className="w-72 min-h-screen bg-gray-400 pt-28 px-4 ">
+      <div className="w-60 min-h-screen pt-28 px-4 ">
         <SideBarItem
           title="home"
           icon={<HomeIcon />}
@@ -24,11 +24,12 @@ export default function Layout({
           href="/transactions"
         ></SideBarItem>
         <SideBarItem
-          title="P2P TRANSFER"
+          title="P2P "
           icon={<P2PICON />}
           href="/p2pTransfer"
         ></SideBarItem>
       </div>
+
       {children}
     </div>
   );

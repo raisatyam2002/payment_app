@@ -1,6 +1,7 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { AppBar } from "@repo/ui/appBar";
+import { redirect } from "next/navigation";
 export default function Home() {
   const user = useSession().data?.user;
   const session = useSession();
@@ -8,22 +9,28 @@ export default function Home() {
 
   return (
     <div className="">
-      <button
-        onClick={() => {
-          signIn();
-        }}
-        className="m-4"
-      >
-        signIn
-      </button>
-      <button
-        onClick={() => {
-          signOut();
-        }}
-      >
-        signOut
-      </button>
-      <div>{JSON.stringify(session)}</div>
+      {user ? (
+        redirect("/dashboard")
+      ) : (
+        <div>
+          <button
+            onClick={() => {
+              signIn();
+            }}
+            className="m-4"
+          >
+            signIn
+          </button>
+          <button
+            onClick={() => {
+              signOut();
+            }}
+          >
+            signOut
+          </button>
+          <div>{JSON.stringify(session)}</div>
+        </div>
+      )}
     </div>
   );
 }

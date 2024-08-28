@@ -13,15 +13,15 @@ interface P2PTransactionsInterface {
 export function P2PTransactions({
   transactions,
 }: {
-  transactions: P2PTransactionsInterface[];
+  transactions: P2PTransactionsInterface[] | null;
 }) {
-  const [localTransaction, setLocalTransactions] =
-    useState<P2PTransactionsInterface[]>(transactions);
-  useEffect(() => {
-    setLocalTransactions(transactions);
-  }, [transactions]);
-
-  if (localTransaction.length == 0) {
+  if (transactions == null) {
+    return (
+      <Card title="P2P">
+        <div className="text-center pb-8 pt-8">No Recent transactions</div>
+      </Card>
+    );
+  } else if (transactions.length == 0) {
     return (
       <Card title="P2P">
         <div className="text-center pb-8 pt-8">No Recent transactions</div>
@@ -32,7 +32,7 @@ export function P2PTransactions({
       <div className="overflow-auto h-72">
         <Card title="P2P">
           <div className="pt-2">
-            {localTransaction?.map((t) => (
+            {transactions?.map((t) => (
               <div className="flex justify-between">
                 <div key={t.id}>
                   <div className="text-sm">SEND INR to {t.receiverNumber}</div>

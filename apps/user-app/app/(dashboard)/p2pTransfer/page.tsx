@@ -1,11 +1,8 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { SendMoneyCard } from "../../components/SendMoneyCard";
-import { OnRampTransactions } from "../../components/OnRampTransactions";
-import { Card } from "@repo/ui/card";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../lib/auth";
-import db from "@repo/db/client";
 import { P2PTransactions } from "../../components/P2PTransactions";
+import { getP2PTransactions } from "../../lib/actions/getP2Ptransactions";
 
 interface P2PTransactionsInterface {
   id: number;
@@ -15,44 +12,30 @@ interface P2PTransactionsInterface {
   time: Date;
   receiverNumber: string;
 }
-async function getP2PTransactions() {
-  const session = await getServerSession(authOptions);
-  const tx = await db.p2P.findMany({
-    where: {
-      senderId: Number(session?.user?.id),
-    },
-    include: {
-      receiver: {
-        select: {
-          phone: true,
-        },
-      },
-    },
-  });
-  return tx.map((t) => {
-    return {
-      id: t.id,
-      senderId: t.senderId,
-      receiverId: t.receiverId,
-      amount: t.amount,
-      time: t.startTime,
-      receiverNumber: t.receiver.phone,
-    };
-  });
-}
-export default async function () {
-  const transactions = await getP2PTransactions();
-  transactions.sort(
-    (a: P2PTransactionsInterface, b: P2PTransactionsInterface) => {
-      console.log(a.id, " ", b.id);
 
-      return b.id - a.id;
-    }
+export default function () {
+  const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
+    null
   );
+  async function getTransactions() {
+    const newtransactions = await getP2PTransactions();
+    newtransactions.sort((a, b) => b.id - a.id);
+    setTrans(newtransactions);
+  }
+
+  useEffect(() => {
+    getTransactions(); // Call it initially
+  }, []);
+
+  // Callback to refresh transactions
+  const handleTransaction: () => void = () => {
+    getTransactions(); // Call it when needed
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 p-64">
       <div className="">
-        <SendMoneyCard></SendMoneyCard>
+        <SendMoneyCard handleTransactions={handleTransaction}></SendMoneyCard>
       </div>
       <div>
         <P2PTransactions transactions={transactions}></P2PTransactions>
