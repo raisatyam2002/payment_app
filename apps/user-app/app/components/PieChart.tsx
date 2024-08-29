@@ -15,11 +15,11 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 // Data for the doughnut chart
 const data: ChartData<"doughnut"> = {
-  labels: ["Online Shopping", "Entertainment", "Car Service", "Households"],
+  labels: ["Car Services", "Entertainment", " Online Shopping", "Households"],
   datasets: [
     {
       label: "Expenses",
-      data: [23032, 15000, 12000, 20007.3], // Data values for each category
+      data: [23032.0, 23032.0, 23032.0, 20007.3], // Data values for each category
       backgroundColor: [
         "#68EE76", // Color for Online Shopping
         "#FEBD38", // Color for Entertainment
@@ -88,9 +88,9 @@ const options: ChartOptions<"doughnut"> = {
   cutout: "70%", // Adjusts the inner radius of the doughnut
 };
 
-export default function DoughnutChart() {
+export default function PieChart() {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-3/4 m-8">
       <Doughnut data={data} options={options} plugins={[totalAmountPlugin]} />
     </div>
   );

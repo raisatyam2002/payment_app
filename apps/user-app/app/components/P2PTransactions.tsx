@@ -29,8 +29,8 @@ export function P2PTransactions({
     );
   } else {
     return (
-      <div className="overflow-auto h-72">
-        <Card title="P2P">
+      <div className="overflow-auto h-full">
+        <Card title="Recent transactions">
           <div className="pt-2">
             {transactions?.map((t) => (
               <div className="flex justify-between">

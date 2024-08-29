@@ -41,7 +41,7 @@ export default async function () {
   const balance = await getBalance();
 
   return (
-    <div className="w-screen">
+    <div className="w-full border-2 border-gray-100">
       <div className="text-4xl text-[#6a51a6] pt-8 pl-4 mb-8 font-bold">
         Transfer
       </div>

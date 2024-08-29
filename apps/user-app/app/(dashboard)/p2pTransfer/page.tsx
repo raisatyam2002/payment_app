@@ -33,12 +33,9 @@ export default function () {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 p-64">
-      <div className="">
+    <div className="w-full border-2 border-gray-100 flex justify-center items-center">
+      <div className="w-80">
         <SendMoneyCard handleTransactions={handleTransaction}></SendMoneyCard>
-      </div>
-      <div>
-        <P2PTransactions transactions={transactions}></P2PTransactions>
       </div>
     </div>
   );

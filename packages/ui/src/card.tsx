@@ -8,9 +8,19 @@ export function Card({
   children?: React.ReactNode;
 }): JSX.Element {
   return (
-    <div className="border p-4">
-      <h1 className="text-xl border-b pb-2">{title}</h1>
-      <div>{children}</div>
+    <div className="border p-4 relative">
+      <h1
+        className="text-xl border-b  "
+        style={{
+          position: "sticky",
+          top: "0",
+          background: "white",
+          zIndex: 10,
+        }}
+      >
+        {title}
+      </h1>
+      <div className="mt-5">{children}</div>
     </div>
   );
 }
