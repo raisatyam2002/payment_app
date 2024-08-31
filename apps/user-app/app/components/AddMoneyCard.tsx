@@ -9,12 +9,9 @@ import { Button } from "@repo/ui/button";
 import { createOnRampTransaction } from "../lib/actions/createOnRampTransactions";
 const SUPPORTED_BANKS = [
   {
+    id: "1",
     name: "HDFC Bank",
     redirectUrl: "https://netbanking.hdfcbank.com",
-  },
-  {
-    name: "Axis Bank",
-    redirectUrl: "https://www.axisbank.com/",
   },
 ];
 export default function () {
@@ -48,8 +45,11 @@ export default function () {
           <Button
             onClick={async () => {
               const status = await createOnRampTransaction("hdfc", amount);
-              alert(status.message);
-              // window.location.href = redirectUrl || "";
+              alert(status.token);
+              window.open(
+                `http://localhost:5173/?token=${status.token}`,
+                "_blank"
+              );
             }}
           >
             Add Money

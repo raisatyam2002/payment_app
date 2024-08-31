@@ -37,6 +37,7 @@ async function getOnRampTransactions() {
 }
 export default async function () {
   const transactions = await getOnRampTransactions();
+  transactions.sort((a, b) => b.id - a.id);
   // console.log("transactions are  ", transactions);
   const balance = await getBalance();
 
@@ -54,7 +55,7 @@ export default async function () {
             amount={balance.amount}
             locked={balance.locked}
           ></BalanceCard>
-          <div className="pt-4">
+          <div className="pt-4 h-96">
             <OnRampTransactions transactions={transactions} />
           </div>
         </div>

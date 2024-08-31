@@ -24,23 +24,25 @@ export function OnRampTransactions({
     );
   } else {
     return (
-      <Card title="Recent Transactions">
-        <div className="pt-2">
-          {transactions?.map((t) => (
-            <div className="flex justify-between">
-              <div key={t.id}>
-                <div className="text-sm">Received INR</div>
-                <div className="text-slate-600 text-xs">
-                  {t.time.toDateString()}
+      <div className="overflow-auto h-full">
+        <Card title="Recent Transactions">
+          <div className="pt-2">
+            {transactions?.map((t) => (
+              <div className="flex justify-between">
+                <div key={t.id}>
+                  <div className="text-sm">Received INR</div>
+                  <div className="text-slate-600 text-xs">
+                    {t.time.toDateString()}
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center">
+                  + Rs {t.amount / 100}
                 </div>
               </div>
-              <div className="flex flex-col justify-center">
-                + Rs {t.amount / 100}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
+            ))}
+          </div>
+        </Card>
+      </div>
     );
   }
 }
