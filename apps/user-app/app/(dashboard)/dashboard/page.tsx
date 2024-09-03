@@ -13,6 +13,7 @@ import Chart from "../../components/Chart";
 import { SendMoneyCard } from "../../components/SendMoneyCard";
 import { P2PTransactions } from "../../components/P2PTransactions";
 import { getP2PTransactions } from "../../lib/actions/getP2Ptransactions";
+import { log } from "console";
 
 interface P2PTransactionsInterface {
   id: number;
@@ -26,20 +27,34 @@ export default function () {
   const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
     null
   );
+  const [topFourTransactions, setTopFourTransactions] = useState<
+    P2PTransactionsInterface[] | null
+  >(null);
   async function getTransactions() {
     const newtransactions = await getP2PTransactions();
     newtransactions.sort((a, b) => b.id - a.id);
     setTrans(newtransactions);
   }
+  async function getTopFourTransactions() {
+    const newtransactions = await getP2PTransactions();
+    newtransactions.sort((a, b) => b.amount - a.amount);
+    setTopFourTransactions(newtransactions.slice(0, 4));
+
+    // const topFourTransactions = newtransactions.slice(0, 4);
+
+    // console.log("Top four transactions:", topFourTransactions);
+  }
+
   useEffect(() => {
     getTransactions();
+    getTopFourTransactions();
   }, []);
   return (
     <div className="flex w-full ">
       <div className="border-2 border-gray-100 w-2/3">
         <div className="flex h-1/2">
           <div className="w-1/2">
-            <PieChart></PieChart>
+            <PieChart topFourTransactions={topFourTransactions}></PieChart>
           </div>
           <div className="pt-36 font-sans font-light">
             <div className=" flex gap-4 ">

@@ -42,14 +42,13 @@ export async function createOnRampTransaction(
     ) as unknown as string;
 
     console.log("Encrypted Data:", encryptedData);
-    // const encryptedDataString = JSON.stringify(encryptedData);
 
-    // Step 2: URL-encode the stringified data
     const urlSafeEncryptedData = encodeURIComponent(encryptedData);
     const decryptedDataString = decodeURIComponent(urlSafeEncryptedData);
     console.log("decrypt string ", decryptedDataString);
 
     const encryptedData2 = JSON.parse(decryptedDataString);
+    console.log("encyotDATA2 ", encryptedData2);
 
     // Proceed with decryption using sjcl or your preferred method
     const decryptedData = sjcl.decrypt(

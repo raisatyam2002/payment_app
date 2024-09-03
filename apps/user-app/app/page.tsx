@@ -1,36 +1,21 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { AppBar } from "@repo/ui/appBar";
-import { redirect } from "next/navigation";
-export default function Home() {
-  const user = useSession().data?.user;
-  const session = useSession();
-  console.log("user is dfd ", user);
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-  return (
-    <div className="">
-      {user ? (
-        redirect("/dashboard")
-      ) : (
-        <div>
-          <button
-            onClick={() => {
-              signIn();
-            }}
-            className="m-4"
-          >
-            signIn
-          </button>
-          <button
-            onClick={() => {
-              signOut();
-            }}
-          >
-            signOut
-          </button>
-          <div>{JSON.stringify(session)}</div>
-        </div>
-      )}
-    </div>
-  );
+export default function Home() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+
+    if (session?.user) {
+      router.push("/dashboard");
+    } else {
+      signIn(undefined, { callbackUrl: window.location.href });
+    }
+  }, [session, status, router]);
+
+  return <div>Loading...</div>;
 }

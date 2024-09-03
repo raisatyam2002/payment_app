@@ -45,7 +45,7 @@ export default function () {
           <Button
             onClick={async () => {
               const status = await createOnRampTransaction("hdfc", amount);
-              alert(status.token);
+              // alert(status.token);
               window.open(
                 `http://localhost:5173/?token=${status.token}`,
                 "_blank"

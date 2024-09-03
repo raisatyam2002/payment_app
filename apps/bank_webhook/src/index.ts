@@ -1,7 +1,9 @@
 import express from "express";
 import { Request, Response } from "express";
 import db from "@repo/db/client";
+import cors from "cors";
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.json({
@@ -10,8 +12,10 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.post("/hdfcWebhook", async (req, res) => {
   //TODO: Add zod validation here?
+  console.log("Request Headers:", req.headers);
+  console.log("Request Body:", req.body);
 
-  console.log("req body ", req.body);
+  console.log("req body from request ", req.body);
 
   const paymentInformation = {
     token: req.body.token,
@@ -44,11 +48,12 @@ app.post("/hdfcWebhook", async (req, res) => {
     });
     res.status(200).json({
       message: "captured",
+      success: true,
     });
   } catch (error) {
     console.log(error);
 
-    res.status(411).json({
+    res.status(401).json({
       message: "not captured",
     });
   }
