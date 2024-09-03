@@ -14,7 +14,7 @@ import { SendMoneyCard } from "../../components/SendMoneyCard";
 import { P2PTransactions } from "../../components/P2PTransactions";
 import { getP2PTransactions } from "../../lib/actions/getP2Ptransactions";
 import { log } from "console";
-
+import lastFourWeeks from "../../lib/actions/getLastFourWeekTransactions";
 interface P2PTransactionsInterface {
   id: number;
   senderId: number;
@@ -23,12 +23,21 @@ interface P2PTransactionsInterface {
   time: Date;
   receiverNumber: string;
 }
+interface BalanceHistoryInterface {
+  id: number;
+  userId: number;
+  amount: number;
+  Date: Date;
+}
 export default function () {
   const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
     null
   );
   const [topFourTransactions, setTopFourTransactions] = useState<
     P2PTransactionsInterface[] | null
+  >(null);
+  const [lastFourWeeksTransactions, setLastFourWeeksTransactions] = useState<
+    BalanceHistoryInterface[] | null
   >(null);
   async function getTransactions() {
     const newtransactions = await getP2PTransactions();
@@ -44,10 +53,16 @@ export default function () {
 
     // console.log("Top four transactions:", topFourTransactions);
   }
+  async function getLastFourWeekBalance() {
+    const transaction = await lastFourWeeks();
+    setLastFourWeeksTransactions(transaction);
+    console.log("last four weeks ", transaction);
+  }
 
   useEffect(() => {
     getTransactions();
     getTopFourTransactions();
+    getLastFourWeekBalance();
   }, []);
   return (
     <div className="flex w-full ">
@@ -57,19 +72,27 @@ export default function () {
             <PieChart topFourTransactions={topFourTransactions}></PieChart>
           </div>
           <div className="pt-36 font-sans font-light">
-            <div className=" flex gap-4 ">
+            <div className=" flex gap-10 ">
               <div className="flex ">
                 <Image src={purple} alt="purple" />
                 <div>
-                  <h4>Online Shoppping</h4>
-                  <h4 className="text-center font-medium">$ 23032.0</h4>
+                  <h4>
+                    {topFourTransactions && topFourTransactions[0]?.receiverId}
+                  </h4>
+                  <h4 className="text-center font-medium">
+                    $ {topFourTransactions && topFourTransactions[0]?.amount}
+                  </h4>
                 </div>
               </div>
-              <div className="flex">
+              <div className="flex ">
                 <Image src={yellow} alt="yellow" />
                 <div>
-                  <h4>Entertainmnets</h4>
-                  <h4 className="text-center font-medium">$ 23032.0</h4>
+                  <h4>
+                    {topFourTransactions && topFourTransactions[1]?.receiverId}
+                  </h4>
+                  <h4 className="text-center font-medium">
+                    $ {topFourTransactions && topFourTransactions[1]?.amount}
+                  </h4>
                 </div>
               </div>
             </div>
@@ -77,22 +100,30 @@ export default function () {
               <div className="flex">
                 <Image src={green} alt="purple" />
                 <div>
-                  <h4>Car services</h4>
-                  <h4 className="text-center font-medium">$ 23032.0</h4>
+                  <h4>
+                    {topFourTransactions && topFourTransactions[2]?.receiverId}
+                  </h4>
+                  <h4 className="text-center font-medium">
+                    $ {topFourTransactions && topFourTransactions[2]?.amount}.0
+                  </h4>
                 </div>
               </div>
-              <div className="flex ml-3">
+              <div className="flex ">
                 <Image src={blue} alt="yellow" />
                 <div className="">
-                  <h4>Households</h4>
-                  <h4 className="text-center font-medium">$ 20007.30</h4>
+                  <h4>
+                    {topFourTransactions && topFourTransactions[3]?.receiverId}
+                  </h4>
+                  <h4 className="text-center font-medium">
+                    $ {topFourTransactions && topFourTransactions[3]?.amount}
+                  </h4>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className="" style={{ height: "320px", width: "100%" }}>
-          <Chart></Chart>
+          <Chart lastFourWeeksTransactions={lastFourWeeksTransactions}></Chart>
         </div>
       </div>
       <div>

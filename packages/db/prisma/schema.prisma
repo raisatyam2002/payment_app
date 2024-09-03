@@ -20,6 +20,7 @@ model User {
   Balance           Balance[]
   sender            P2P[] @relation("sender")
   receiver          P2P[] @relation("receiver")
+  BalanceHistory    BalanceHistory[]
 } 
 model OnRampTransaction {
   id        Int          @id @default(autoincrement())
@@ -47,6 +48,14 @@ model P2P{
  startTime DateTime
  sender User @relation("sender",fields: [senderId],references: [id])
  receiver User @relation("receiver",fields: [receiverId],references: [id])
+}
+model BalanceHistory{
+ id Int @id @default(autoincrement())
+ amount Int
+ Date DateTime
+ userId Int 
+ user User @relation(fields: [userId],references: [id])
+
 }
 enum OnRampStatus {
   Success

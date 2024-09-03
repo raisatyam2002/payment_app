@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Chart as ChartJS,
   ArcElement,
@@ -8,7 +6,7 @@ import {
   ChartData,
   ChartOptions,
 } from "chart.js";
-import { log } from "console";
+
 import { Doughnut } from "react-chartjs-2";
 interface P2PTransactionsInterface {
   id: number;
@@ -25,6 +23,7 @@ export default function PieChart({
 }: {
   topFourTransactions: P2PTransactionsInterface[] | null;
 }) {
+  // if (topFourTransactions == null) alert("hi");
   console.log("four transcarion ", topFourTransactions);
 
   const labels = topFourTransactions?.map((tx) => tx.receiverId);
@@ -55,6 +54,7 @@ export default function PieChart({
   console.log(amountData[0]);
 
   const totalAmount = amountData.reduce((acc, value) => acc + value, 0) ?? 0;
+  console.log("totalAmount ", totalAmount);
 
   // Custom plugin to draw total amount inside the chart
   const totalAmountPlugin = {
@@ -102,7 +102,9 @@ export default function PieChart({
     },
     cutout: "70%", // Adjusts the inner radius of the doughnut
   };
-
+  if (!topFourTransactions) {
+    return <div></div>;
+  }
   return (
     <div className="w-full h-3/4 m-8">
       <Doughnut data={data} options={options} plugins={[totalAmountPlugin]} />
