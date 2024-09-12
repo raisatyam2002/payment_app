@@ -12,6 +12,7 @@ body {
   .fullView {
     display: none; /* Hide the element when the screen width is 768px or less */
   }
+
   /* .sideDrawer {
     display: none !important;
   } */

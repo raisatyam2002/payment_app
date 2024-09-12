@@ -5,6 +5,7 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import SideBarItem from "../components/SideBarItem";
+import { relative } from "path";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -60,7 +61,7 @@ export function SideDrawer() {
   );
 
   return (
-    <div className="sideDrawer block md:hidden w-12 p-0 text-center">
+    <div className="sideDrawer block md:hidden w-12 p-0 text-center fixed top-28 left-0  ">
       {(["left"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>

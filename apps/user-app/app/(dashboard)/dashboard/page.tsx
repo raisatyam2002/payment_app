@@ -71,26 +71,27 @@ export default function () {
           <div className="sm:w-1/2 w-screen">
             <PieChart topFourTransactions={topFourTransactions}></PieChart>
           </div>
-          <div className="sm:pt-36 font-sans font-light p-28 ">
+          <div className="sm:pt-36 font-sans font-light p-20 ">
             <div className=" flex gap-10 ">
               <div className="flex ">
-                <Image src={purple} alt="purple" />
+                <Image className="w-16 h-16" src={purple} alt="purple" />
+
                 <div>
                   <h4>
                     {topFourTransactions && topFourTransactions[0]?.receiverId}
                   </h4>
-                  <h4 className="text-center font-medium">
+                  <h4 className="text-center font-medium whitespace-nowrap">
                     $ {topFourTransactions && topFourTransactions[0]?.amount}
                   </h4>
                 </div>
               </div>
               <div className="flex ">
-                <Image src={yellow} alt="yellow" />
+                <Image className="w-16 h-16" src={yellow} alt="yellow" />
                 <div>
                   <h4>
                     {topFourTransactions && topFourTransactions[1]?.receiverId}
                   </h4>
-                  <h4 className="text-center font-medium">
+                  <h4 className="text-center font-medium whitespace-nowrap">
                     $ {topFourTransactions && topFourTransactions[1]?.amount}
                   </h4>
                 </div>
@@ -98,23 +99,23 @@ export default function () {
             </div>
             <div className=" flex gap-10 mt-10">
               <div className="flex">
-                <Image src={green} alt="purple" />
+                <Image className="w-16 h-16" src={green} alt="purple" />
                 <div>
                   <h4>
                     {topFourTransactions && topFourTransactions[2]?.receiverId}
                   </h4>
-                  <h4 className="text-center font-medium">
+                  <h4 className="text-center font-medium whitespace-nowrap">
                     $ {topFourTransactions && topFourTransactions[2]?.amount}.0
                   </h4>
                 </div>
               </div>
               <div className="flex ">
-                <Image src={blue} alt="yellow" />
+                <Image className="w-16 h-16" src={blue} alt="yellow" />
                 <div className="">
                   <h4>
                     {topFourTransactions && topFourTransactions[3]?.receiverId}
                   </h4>
-                  <h4 className="text-center font-medium">
+                  <h4 className="text-center font-medium whitespace-nowrap">
                     $ {topFourTransactions && topFourTransactions[3]?.amount}
                   </h4>
                 </div>
@@ -127,7 +128,7 @@ export default function () {
         </div>
       </div>
       <div>
-        <div className="pl-20 sm:p-0">
+        <div className="sm:pl-0 flex justify-center items-center">
           <Image src={creditCard} alt="credit Card"></Image>
         </div>
         <div className="h-96 m-2">

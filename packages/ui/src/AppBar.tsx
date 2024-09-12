@@ -18,7 +18,7 @@ export const AppBar = ({ signIn, signOut, user }: AppBarProps) => {
     await signOut();
   }
   return (
-    <div className="flex justify-between p-4 border z-30">
+    <div className="flex justify-between p-4 border z-30 bg-gray-50">
       <div className="text-xl pt-2">PAYMENT APP</div>
       {user ? (
         <button
@@ -27,7 +27,7 @@ export const AppBar = ({ signIn, signOut, user }: AppBarProps) => {
 
             window.location.href = "http://localhost:3000";
           }}
-          className="border bg-gray-800 hover:bg-gray-950 text-white p-2 rounded-md w-20"
+          className="border bg-gray-800 hover:bg-gray-950 text-white sm:p-2 mr-8 sm:mr-0 rounded-md w-20"
         >
           signOut
         </button>
