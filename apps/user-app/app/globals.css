@@ -2,5 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 body {
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
+.fullView {
+  display: block; /* Default display for larger screens */
+}
+
+@media only screen and (max-width: 768px) {
+  .fullView {
+    display: none; /* Hide the element when the screen width is 768px or less */
+  }
+  /* .sideDrawer {
+    display: none !important;
+  } */
+}
+/* .sideDrawer {
+  display: none;
+} */

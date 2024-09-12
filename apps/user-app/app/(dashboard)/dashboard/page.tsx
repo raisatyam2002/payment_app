@@ -65,13 +65,13 @@ export default function () {
     getLastFourWeekBalance();
   }, []);
   return (
-    <div className="flex w-full ">
-      <div className="border-2 border-gray-100 w-2/3">
-        <div className="flex h-1/2">
-          <div className="w-1/2">
+    <div className="sm:flex sm:w-full ">
+      <div className="sm:border-2 sm: border-gray-100 sm:w-2/3">
+        <div className="sm:flex h-1/2">
+          <div className="sm:w-1/2 w-screen">
             <PieChart topFourTransactions={topFourTransactions}></PieChart>
           </div>
-          <div className="pt-36 font-sans font-light">
+          <div className="sm:pt-36 font-sans font-light p-28 ">
             <div className=" flex gap-10 ">
               <div className="flex ">
                 <Image src={purple} alt="purple" />
@@ -127,7 +127,7 @@ export default function () {
         </div>
       </div>
       <div>
-        <div>
+        <div className="pl-20 sm:p-0">
           <Image src={creditCard} alt="credit Card"></Image>
         </div>
         <div className="h-96 m-2">

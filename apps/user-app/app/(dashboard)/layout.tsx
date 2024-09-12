@@ -1,4 +1,5 @@
 import SideBarItem from "../components/SideBarItem";
+import { SideDrawer } from "../components/SideDrawer";
 
 export default function Layout({
   children,
@@ -6,8 +7,8 @@ export default function Layout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <div className="flex">
-      <div className="w-60 min-h-screen pt-28 px-4 ">
+    <div className="sm:flex">
+      <div className="sm:w-60 sm:min-h-screen sm:pt-28 sm:px-4 fullView">
         <SideBarItem
           title="home"
           icon={<HomeIcon />}
@@ -29,6 +30,7 @@ export default function Layout({
           href="/p2pTransfer"
         ></SideBarItem>
       </div>
+      <SideDrawer></SideDrawer>
 
       {children}
     </div>

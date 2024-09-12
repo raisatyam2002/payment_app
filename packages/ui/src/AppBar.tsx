@@ -18,7 +18,7 @@ export const AppBar = ({ signIn, signOut, user }: AppBarProps) => {
     await signOut();
   }
   return (
-    <div className="flex justify-between p-4 border">
+    <div className="flex justify-between p-4 border z-30">
       <div className="text-xl pt-2">PAYMENT APP</div>
       {user ? (
         <button
