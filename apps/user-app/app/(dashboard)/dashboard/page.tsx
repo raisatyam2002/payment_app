@@ -71,7 +71,7 @@ export default function () {
           <div className="sm:w-1/2 w-screen">
             <PieChart topFourTransactions={topFourTransactions}></PieChart>
           </div>
-          <div className="sm:pt-36 font-sans font-light p-20 ">
+          <div className="sm:pt-36 font-sans font-light pt-6  pb-6  ">
             <div className=" flex gap-10 ">
               <div className="flex ">
                 <Image className="w-16 h-16" src={purple} alt="purple" />

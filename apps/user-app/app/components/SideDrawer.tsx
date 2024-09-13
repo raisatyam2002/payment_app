@@ -61,7 +61,7 @@ export function SideDrawer() {
   );
 
   return (
-    <div className="sideDrawer block md:hidden w-12 p-0 text-center fixed top-28 left-0  ">
+    <div className="sideDrawer block md:hidden w-12 p-0 text-center fixed top-20 left-0 z-10 ">
       {(["left"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>
@@ -71,6 +71,12 @@ export function SideDrawer() {
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
+            PaperProps={{
+              sx: {
+                top: "64px", // Adjusting the drawer's top position
+                // backgroundColor: "gray",
+              },
+            }}
           >
             {list(anchor)}
           </Drawer>

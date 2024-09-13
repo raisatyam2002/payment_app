@@ -106,7 +106,7 @@ export default function PieChart({
     return <div></div>;
   }
   return (
-    <div className="w-full h-3/4 m-8">
+    <div className="w-full h-3/4 sm:m-8">
       <Doughnut data={data} options={options} plugins={[totalAmountPlugin]} />
     </div>
   );

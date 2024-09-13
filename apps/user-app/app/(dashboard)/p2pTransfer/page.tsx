@@ -34,7 +34,7 @@ export default function () {
 
   return (
     <div className="w-full border-2 border-gray-100 flex justify-center items-center">
-      <div className="w-80">
+      <div className="sm:w-80 mt-40">
         <SendMoneyCard handleTransactions={handleTransaction}></SendMoneyCard>
       </div>
     </div>

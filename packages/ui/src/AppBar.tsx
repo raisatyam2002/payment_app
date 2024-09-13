@@ -27,7 +27,7 @@ export const AppBar = ({ signIn, signOut, user }: AppBarProps) => {
 
             window.location.href = "http://localhost:3000";
           }}
-          className="border bg-gray-800 hover:bg-gray-950 text-white sm:p-2 mr-8 sm:mr-0 rounded-md w-20"
+          className="border bg-gray-800 hover:bg-gray-950 text-white sm:p-2 mr-4 sm:mr-0 rounded-md w-20"
         >
           signOut
         </button>
