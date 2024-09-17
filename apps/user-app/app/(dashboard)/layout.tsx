@@ -30,7 +30,7 @@ export default function Layout({
           href="/p2pTransfer"
         ></SideBarItem>
       </div>
-      <SideDrawer></SideDrawer>
+      <SideDrawer ></SideDrawer>
 
       {children}
     </div>

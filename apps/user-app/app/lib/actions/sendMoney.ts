@@ -37,7 +37,7 @@ export default async function sendMoney({
     if (!senderBalance || senderBalance.amount < amount) {
       throw new Error("Insufficient funds");
     } else {
-      await new Promise((r) => setTimeout(r, 4000));
+      // await new Promise((r) => setTimeout(r, 4000));
       await tx.balance.update({
         where: {
           userId: senderId,

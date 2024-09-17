@@ -17,8 +17,14 @@ export const authOptions = {
       },
       // TODO: User credentials type from next-aut
       async authorize(credentials: any) {
-        console.log("debug ", credentials.phone);
-
+        console.log("debug chekc", credentials.phone);
+        // if (credentials.phone == 1) {
+        //   console.log("new debug");
+        //   return {
+        //     id: "1",
+        //     phone: credentials.phone,
+        //   };
+        // }
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
         console.log("debug 2");
 
@@ -27,6 +33,7 @@ export const authOptions = {
             phone: credentials.phone,
           },
         });
+
         console.log("debug 3");
         if (existingUser) {
           console.log("hey ", existingUser.password, " ", hashedPassword);
