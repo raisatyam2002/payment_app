@@ -1,0 +1,65 @@
+"use client";
+import { Button } from "@repo/ui/button";
+import { useState } from "react";
+import Link from "next/link";
+import { SignUp } from "../../lib/actions/SignUp";
+import { useRouter } from "next/navigation";
+export default function SignUppage() {
+  const router = useRouter();
+  const [name, setName] = useState<string | undefined>();
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
+  const [password, setPassword] = useState<string | undefined>();
+
+  const handleSignUp = async () => {
+    const data = await SignUp({ name, phoneNumber, password });
+    if (data.error) {
+      alert(data.error);
+    } else {
+      alert(data.message);
+      router.push("/auth/login");
+    }
+  };
+  return (
+    <div>
+      <div className=" flex justify-center z-0  ">
+        <div className="flex flex-col gap-4 border border-gray-300 p-7 z-50  mt-24">
+          <h1 className="text-center text-4xl">Welcome Back</h1>
+          <input
+            type="text"
+            placeholder="Enter Name"
+            className="h-10 px-2 border border-gray-400"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setName(e.target.value);
+            }}
+          ></input>
+          <input
+            type="text"
+            placeholder="Enter Phone Number"
+            className="h-10 px-2 border border-gray-400"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setPhoneNumber(e.target.value);
+            }}
+          ></input>
+          <input
+            type="text"
+            placeholder="Password"
+            className="h-10 px-2 border border-gray-400"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setPassword(e.target.value);
+            }}
+          ></input>
+          <Button onClick={handleSignUp}>Login</Button>
+          <h1>
+            Already a User?{" "}
+            <Link
+              href="/auth/login"
+              className="cursor hover:underline decoration-gray-500"
+            >
+              login
+            </Link>
+          </h1>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -50,22 +50,22 @@ export const authOptions = {
           }
           return null;
         }
-        try {
-          const newUser = await db.user.create({
-            data: {
-              phone: credentials.phone,
-              password: hashedPassword,
-            },
-          });
-          return {
-            id: newUser.id.toString(),
-            phone: credentials.phone,
-          };
-        } catch (error) {
-          //   console.log("debug 2");
+        // try {
+        //   const newUser = await db.user.create({
+        //     data: {
+        //       phone: credentials.phone,
+        //       password: hashedPassword,
+        //     },
+        //   });
+        //   return {
+        //     id: newUser.id.toString(),
+        //     phone: credentials.phone,
+        //   };
+        // } catch (error) {
+        //   //   console.log("debug 2");
 
-          console.log(error);
-        }
+        //   console.log(error);
+        // }
         return null;
       },
     }),
@@ -78,5 +78,8 @@ export const authOptions = {
       }
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth/login",
   },
 };

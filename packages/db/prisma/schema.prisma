@@ -15,6 +15,7 @@ datasource db {
 model User {
   id          Int      @id @default(autoincrement())
   phone       String      @unique
+  name        String?
   password    String
   OnRampTransaction OnRampTransaction[]
   Balance           Balance[]
