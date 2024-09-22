@@ -4,19 +4,40 @@ import { useState } from "react";
 import Link from "next/link";
 import { SignUp } from "../../lib/actions/SignUp";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { isDataView } from "util/types";
 export default function SignUppage() {
+  const userSignupObjet = z.object({
+    name: z.string(),
+    phoneNumber: z.number().int().gte(1000000000).lte(9999999999),
+    password: z.string().min(5),
+  });
   const router = useRouter();
   const [name, setName] = useState<string | undefined>();
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
 
   const handleSignUp = async () => {
-    const data = await SignUp({ name, phoneNumber, password });
-    if (data.error) {
-      alert(data.error);
+    const phoneNum = Number(phoneNumber);
+    console.log("phoneNum ", phoneNum);
+    const isDataValid = userSignupObjet.safeParse({
+      name: name,
+      phoneNumber: phoneNum,
+      password: password,
+    });
+    if (isDataValid.success) {
+      const data = await SignUp({ name, phoneNumber, password });
+      if (data.error) {
+        alert(data.error);
+      } else {
+        alert(data.message);
+        router.push("/auth/login");
+      }
     } else {
-      alert(data.message);
-      router.push("/auth/login");
+      console.log(isDataValid);
+      alert(
+        "phoneNumber must  be of 10 digit and password must be of 5 alphabets"
+      );
     }
   };
   return (

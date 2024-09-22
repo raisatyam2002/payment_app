@@ -15,7 +15,7 @@ export default function custom404Page() {
         <Image src={bg404} alt="404" className="absolute"></Image>
         <Image src={bg} alt="4041" className="absolute top-12"></Image>
       </div>
-      <div className="flex justify-center mt-96">
+      <div className="flex justify-center mt-80">
         <Image
           src={button}
           alt="button"
