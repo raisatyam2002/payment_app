@@ -1,39 +1,38 @@
 import SideBarItem from "../components/SideBarItem";
 import { SideDrawer } from "../components/SideDrawer";
+import { AuthWrapper } from "./AuthWrapper";
 
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="sm:flex">
-      <div className="sm:w-60 sm:min-h-screen sm:pt-28 sm:px-4 fullView">
-        <SideBarItem
-          title="home"
-          icon={<HomeIcon />}
-          href="/dashboard"
-        ></SideBarItem>
-        <SideBarItem
-          title="transfer"
-          icon={<TransferIcon />}
-          href="/transfer"
-        ></SideBarItem>
-        <SideBarItem
-          title="transaction"
-          icon={<TransactionsIcon />}
-          href="/transactions"
-        ></SideBarItem>
-        <SideBarItem
-          title="P2P "
-          icon={<P2PICON />}
-          href="/p2pTransfer"
-        ></SideBarItem>
-      </div>
-      <SideDrawer ></SideDrawer>
+    <AuthWrapper>
+      <div className="sm:flex">
+        <div className="sm:w-60 sm:min-h-screen sm:pt-28 sm:px-4 fullView">
+          <SideBarItem
+            title="home"
+            icon={<HomeIcon />}
+            href="/dashboard"
+          ></SideBarItem>
+          <SideBarItem
+            title="transfer"
+            icon={<TransferIcon />}
+            href="/transfer"
+          ></SideBarItem>
+          <SideBarItem
+            title="transaction"
+            icon={<TransactionsIcon />}
+            href="/transactions"
+          ></SideBarItem>
+          <SideBarItem
+            title="P2P "
+            icon={<P2PICON />}
+            href="/p2pTransfer"
+          ></SideBarItem>
+        </div>
+        <SideDrawer></SideDrawer>
 
-      {children}
-    </div>
+        {children}
+      </div>
+    </AuthWrapper>
   );
 }
 function HomeIcon() {

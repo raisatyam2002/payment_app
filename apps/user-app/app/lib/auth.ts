@@ -18,13 +18,7 @@ export const authOptions = {
       // TODO: User credentials type from next-aut
       async authorize(credentials: any) {
         console.log("debug chekc", credentials.phone);
-        // if (credentials.phone == 1) {
-        //   console.log("new debug");
-        //   return {
-        //     id: "1",
-        //     phone: credentials.phone,
-        //   };
-        // }
+
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
         console.log("debug 2");
 
@@ -33,40 +27,28 @@ export const authOptions = {
             phone: credentials.phone,
           },
         });
+        if (!existingUser) {
+          console.log("User not found.");
+          throw new Error("User not found. Please check your phone number.");
+        }
 
         console.log("debug 3");
-        if (existingUser) {
-          console.log("hey ", existingUser.password, " ", hashedPassword);
 
-          const passwordValidation = await bcrypt.compare(
-            credentials.password,
-            existingUser.password
-          );
-          if (passwordValidation) {
-            return {
-              id: existingUser.id.toString(),
-              phone: existingUser.phone,
-            };
-          }
-          return null;
-        }
-        try {
-          const newUser = await db.user.create({
-            data: {
-              phone: credentials.phone,
-              password: hashedPassword,
-            },
-          });
-          return {
-            id: newUser.id.toString(),
-            phone: credentials.phone,
-          };
-        } catch (error) {
-          //   console.log("debug 2");
+        console.log("hey ", existingUser.password, " ", hashedPassword);
 
-          console.log(error);
+        const passwordValidation = await bcrypt.compare(
+          credentials.password,
+          existingUser.password
+        );
+        if (!passwordValidation) {
+          console.log("Invalid password.");
+          throw new Error("Invalid password. Please try again.");
         }
-        return null;
+
+        return {
+          id: existingUser.id.toString(),
+          phone: existingUser.phone,
+        };
       },
     }),
   ],
@@ -78,5 +60,9 @@ export const authOptions = {
       }
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth/login",
+    signOut: "/auth/logout",
   },
 };
