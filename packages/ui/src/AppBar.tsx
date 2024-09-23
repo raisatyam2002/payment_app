@@ -9,13 +9,15 @@ interface AppBarProps {
     email?: string | null;
     image?: string | null;
   };
+  callbackUrl: string;
 }
-export const AppBar = ({ signIn, signOut, user }: AppBarProps) => {
+export const AppBar = ({ signIn, signOut, user, callbackUrl }: AppBarProps) => {
   function handleSignIn() {
     signIn();
   }
   async function handleSignOut() {
     await signOut();
+    window.location.href = callbackUrl;
   }
   return (
     <div className="flex justify-between p-4 border z-30 bg-gray-50">
@@ -24,8 +26,6 @@ export const AppBar = ({ signIn, signOut, user }: AppBarProps) => {
         <button
           onClick={async () => {
             await handleSignOut();
-
-            window.location.href = "http://localhost:3000";
           }}
           className="border bg-gray-800 hover:bg-gray-950 text-white sm:p-2 mr-4 sm:mr-0 rounded-md w-20"
         >

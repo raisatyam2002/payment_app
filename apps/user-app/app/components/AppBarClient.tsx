@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 export const AppBarClient = () => {
   const session = useSession();
   const router = useRouter();
+  const nextAuthUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL;
   return (
     <div className="fixed top-0 left-0 w-full  z-50;  ">
       <AppBar
         signIn={signIn}
-        signOut={signOut}
+        signOut={() => signOut()}
         user={session.data?.user}
+        callbackUrl={`${nextAuthUrl}/auth/login`}
       ></AppBar>
     </div>
   );

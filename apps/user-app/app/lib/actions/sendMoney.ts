@@ -24,7 +24,8 @@ export default async function sendMoney({
   const receiverId = await getReciverId(number);
   if (!receiverId) {
     return {
-      message: "User not found",
+      success: false,
+      message: "Peer not found",
     };
   }
   const tx = await db.$transaction(async (tx) => {
@@ -76,6 +77,7 @@ export default async function sendMoney({
   console.log("tx is ", tx);
 
   return {
+    success: true,
     message: "payment succesfull",
   };
 }

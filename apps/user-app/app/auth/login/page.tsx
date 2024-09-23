@@ -3,16 +3,24 @@ import { signIn } from "next-auth/react";
 import { Button } from "@repo/ui/button";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function Login() {
+  const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const handleLogin = async () => {
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       phone: phoneNumber,
       password: password,
-      redirect: true,
-      callbackUrl: "http://localhost:3000/dashboard",
+      redirect: false,
     });
+    if (result?.error) {
+      console.error("Login error:", result.error);
+      alert(result.error);
+    } else {
+      alert("logged in successfully");
+      router.push("/dashboard");
+    }
   };
   return (
     <div className=" flex justify-center z-0  ">

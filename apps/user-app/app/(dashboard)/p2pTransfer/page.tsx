@@ -14,28 +14,28 @@ interface P2PTransactionsInterface {
 }
 
 export default function () {
-  const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
-    null
-  );
-  async function getTransactions() {
-    const newtransactions = await getP2PTransactions();
-    newtransactions.sort((a, b) => b.id - a.id);
-    setTrans(newtransactions);
-  }
+  // const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
+  //   null
+  // );
+  // async function getTransactions() {
+  //   const newtransactions = await getP2PTransactions();
+  //   newtransactions.sort((a, b) => b.id - a.id);
+  //   setTrans(newtransactions);
+  // }
 
-  useEffect(() => {
-    getTransactions(); // Call it initially
-  }, []);
+  // useEffect(() => {
+  //   getTransactions(); // Call it initially
+  // }, []);
 
-  // Callback to refresh transactions
-  const handleTransaction: () => void = () => {
-    getTransactions(); // Call it when needed
-  };
+  // // Callback to refresh transactions
+  // const handleTransaction: () => void = () => {
+  //   getTransactions(); // Call it when needed
+  // };
 
   return (
     <div className="w-full border-2 border-gray-100 flex justify-center items-center">
       <div className="sm:w-80 mt-40">
-        <SendMoneyCard handleTransactions={handleTransaction}></SendMoneyCard>
+        <SendMoneyCard ></SendMoneyCard>
       </div>
     </div>
   );
