@@ -28,6 +28,12 @@ export default async function sendMoney({
       message: "Peer not found",
     };
   }
+  if (senderId == receiverId) {
+    return {
+      success: false,
+      message: "Cannot send money to yourself",
+    };
+  }
   const tx = await db.$transaction(async (tx) => {
     await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${senderId} FOR UPDATE`;
     const senderBalance = await tx.balance.findUnique({

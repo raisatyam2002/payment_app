@@ -16,8 +16,10 @@ export default function SignUppage() {
   const [name, setName] = useState<string | undefined>();
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
-
+  const [loading, setLoading] = useState(false);
   const handleSignUp = async () => {
+    if (loading) return;
+    setLoading(true);
     const phoneNum = Number(phoneNumber);
     console.log("phoneNum ", phoneNum);
     const isDataValid = userSignupObjet.safeParse({
@@ -39,6 +41,7 @@ export default function SignUppage() {
         "phoneNumber must  be of 10 digit and password must be of 5 alphabets"
       );
     }
+    setLoading(false);
   };
   return (
     <div>

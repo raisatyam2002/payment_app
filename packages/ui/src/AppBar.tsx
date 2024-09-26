@@ -17,6 +17,7 @@ export const AppBar = ({ signIn, signOut, user, callbackUrl }: AppBarProps) => {
   }
   async function handleSignOut() {
     await signOut();
+    alert(callbackUrl);
     window.location.href = callbackUrl;
   }
   return (
