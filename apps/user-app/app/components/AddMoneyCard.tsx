@@ -19,6 +19,7 @@ export default function () {
     SUPPORTED_BANKS[0]?.redirectUrl
   );
   const [amount, setAmount] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
   return (
     <Card title="Add Money">
       <div className="w-full">
@@ -44,12 +45,19 @@ export default function () {
         <div className="flex justify-center pt-4">
           <Button
             onClick={async () => {
+              if (loading) return;
+              setLoading(true);
+              if (amount == 0) {
+                setLoading(false);
+                return;
+              }
               const status = await createOnRampTransaction("hdfc", amount);
               // alert(status.token);
               window.open(
                 `http://localhost:5173/?token=${status.token}`,
                 "_blank"
               );
+              setLoading(false);
             }}
           >
             Add Money

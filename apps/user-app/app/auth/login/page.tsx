@@ -8,7 +8,10 @@ export default function Login() {
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
+    if (loading) return;
+    setLoading(true);
     const result = await signIn("credentials", {
       phone: phoneNumber,
       password: password,
@@ -21,6 +24,7 @@ export default function Login() {
       alert("logged in successfully");
       router.push("/dashboard");
     }
+    setLoading(false);
   };
   return (
     <div className=" flex justify-center z-0  ">
@@ -42,7 +46,14 @@ export default function Login() {
             setPassword(e.target.value);
           }}
         ></input>
-        <Button onClick={handleLogin}>Login</Button>
+        <Button
+          onClick={() => {
+            handleLogin();
+          }}
+          disabled={loading}
+        >
+          Login
+        </Button>
         <h1>
           Don't have an account?{" "}
           <Link

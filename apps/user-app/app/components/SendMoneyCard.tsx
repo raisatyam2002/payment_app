@@ -8,6 +8,7 @@ import sendMoney from "../lib/actions/sendMoney";
 export function SendMoneyCard() {
   const [number, setNumber] = useState<number>(0);
   const [amount, setAmount] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
   return (
     <div className="">
       <Card title="Send Money">
@@ -29,11 +30,19 @@ export function SendMoneyCard() {
           <div className="pt-4 flex justify-center">
             <Button
               onClick={async () => {
+                if (loading) return;
+                setLoading(true);
+                if (amount == 0 || number == 0) {
+                  alert("Enter number and amount");
+                  setLoading(false);
+                  return;
+                }
                 const res = await sendMoney({ number, amount });
                 alert(res.message);
+                setLoading(false);
               }}
             >
-              Send
+              {loading ? "sending..." : "send"}
             </Button>
           </div>
         </div>
