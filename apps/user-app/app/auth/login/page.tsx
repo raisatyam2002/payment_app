@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 export default function Login() {
   const router = useRouter();
+  console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL);
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
