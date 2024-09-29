@@ -22,7 +22,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./docker/Dockerfile.user
+          file: ./docker/DockerFile.user
           push: true
           tags: raisatyam2002/payment-app
 
