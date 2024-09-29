@@ -6,11 +6,11 @@ copy package.json package-lock.json turbo.json  ./
 COPY apps ./apps
 COPY packages ./packages
 
-# Install dependencies
+
 RUN npm install
-# Can you add a script to the global package.json that does this?
+
 RUN cd packages/db && npx prisma generate  cd ../..
 
-RUN cd apps/user-app && npm run build
+RUN cd apps/user-app && npm run build && cd ../..
 
 CMD ["npm", "run", "start-user-app"]

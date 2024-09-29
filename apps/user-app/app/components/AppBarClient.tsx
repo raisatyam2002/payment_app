@@ -7,6 +7,7 @@ export const AppBarClient = () => {
   const session = useSession();
   const router = useRouter();
   const nextAuthUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL;
+  console.log("scsd ", nextAuthUrl);
   return (
     <div className="fixed top-0 left-0 w-full  z-50;  ">
       <AppBar
