@@ -2,7 +2,7 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+import Loader from "./components/Loader";
 export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -17,5 +17,5 @@ export default function Home() {
     }
   }, [session, status, router]);
 
-  return <div>Loading...</div>;
+  return <Loader></Loader>;
 }
