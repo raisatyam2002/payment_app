@@ -13,7 +13,8 @@ import Chart from "../../components/Chart";
 import { SendMoneyCard } from "../../components/SendMoneyCard";
 import { P2PTransactions } from "../../components/P2PTransactions";
 import { getP2PTransactions } from "../../lib/actions/getP2Ptransactions";
-import { log } from "console";
+import { Suspense } from "react";
+import useSWR from "swr";
 import lastFourWeeks from "../../lib/actions/getLastFourWeekTransactions";
 interface P2PTransactionsInterface {
   id: number;
@@ -30,46 +31,67 @@ interface BalanceHistoryInterface {
   Date: Date;
 }
 export default function () {
-  const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
-    null
-  );
-  const [topFourTransactions, setTopFourTransactions] = useState<
-    P2PTransactionsInterface[] | null
-  >(null);
-  const [lastFourWeeksTransactions, setLastFourWeeksTransactions] = useState<
-    BalanceHistoryInterface[] | null
-  >(null);
+  // const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
+  //   null
+  // );
+  // const [topFourTransactions, setTopFourTransactions] = useState<
+  //   P2PTransactionsInterface[] | null
+  // >(null);
+  // const [lastFourWeeksTransactions, setLastFourWeeksTransactions] = useState<
+  //   BalanceHistoryInterface[] | null
+  // >(null);
   async function getTransactions() {
     const newtransactions = await getP2PTransactions();
-    newtransactions.sort((a, b) => b.id - a.id);
-    setTrans(newtransactions);
+    return newtransactions.sort((a, b) => b.id - a.id);
+    // setTrans(newtransactions);
   }
   async function getTopFourTransactions() {
     const newtransactions = await getP2PTransactions();
     newtransactions.sort((a, b) => b.amount - a.amount);
-    setTopFourTransactions(newtransactions.slice(0, 4));
-
-    // const topFourTransactions = newtransactions.slice(0, 4);
-
-    // console.log("Top four transactions:", topFourTransactions);
+    // setTopFourTransactions(newtransactions.slice(0, 4));
+    return newtransactions.slice(0, 4);
   }
   async function getLastFourWeekBalance() {
     const transaction = await lastFourWeeks();
-    setLastFourWeeksTransactions(transaction);
-    console.log("last four weeks ", transaction);
+    return transaction;
   }
 
   useEffect(() => {
-    getTransactions();
-    getTopFourTransactions();
-    getLastFourWeekBalance();
+    // getTransactions();
+    // getTopFourTransactions();
+    // getLastFourWeekBalance();
   }, []);
+  const { data: topFourTransactions, error: topFourError } = useSWR(
+    "top-four-transactions",
+    getTopFourTransactions,
+    {
+      revalidateOnFocus: true,
+    }
+  );
+  const { data: transactions, error: transactionError } = useSWR(
+    "transactions",
+    getTransactions,
+    {
+      revalidateOnFocus: true,
+    }
+  );
+  const { data: lastFourWeeksTransactions, error: lastFourWeek } = useSWR(
+    "lastFourWeek",
+    getLastFourWeekBalance,
+    {
+      revalidateOnFocus: true,
+    }
+  );
   return (
     <div className="sm:flex sm:w-full ">
       <div className="sm:border-2 sm: border-gray-100 sm:w-2/3">
         <div className="sm:flex h-1/2">
           <div className="sm:w-1/2 w-screen">
-            <PieChart topFourTransactions={topFourTransactions}></PieChart>
+            {topFourTransactions ? (
+              <PieChart topFourTransactions={topFourTransactions}></PieChart>
+            ) : (
+              <div>loading PieChart</div>
+            )}
           </div>
           <div className="sm:pt-36 font-sans font-light pt-6  pb-6  ">
             <div className=" flex gap-10 ">
