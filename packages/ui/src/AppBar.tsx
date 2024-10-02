@@ -27,9 +27,9 @@ export const AppBar = ({ signIn, signOut, user, callbackUrl }: AppBarProps) => {
           onClick={async () => {
             await handleSignOut();
           }}
-          className="border bg-gray-800 hover:bg-gray-950 text-white sm:p-2 mr-4 sm:mr-0 rounded-md w-20"
+          className="border bg-gray-800 hover:bg-gray-950 text-white sm:p-2 mr-4 sm:mr-0 rounded-md w-24"
         >
-          signOut
+          Sign Out
         </button>
       ) : (
         <button
@@ -38,7 +38,7 @@ export const AppBar = ({ signIn, signOut, user, callbackUrl }: AppBarProps) => {
           }}
           className="border bg-gray-800 hover:bg-gray-950 text-white p-2 rounded-md w-20"
         >
-          signIn
+          Sign in
         </button>
       )}
     </div>
