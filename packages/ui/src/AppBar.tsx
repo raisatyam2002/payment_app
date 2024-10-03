@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./button";
+import { useRouter } from "next/navigation";
 interface AppBarProps {
   signIn: () => void;
   signOut: () => void;
@@ -12,6 +13,7 @@ interface AppBarProps {
   callbackUrl: string;
 }
 export const AppBar = ({ signIn, signOut, user, callbackUrl }: AppBarProps) => {
+  const router = useRouter();
   function handleSignIn() {
     signIn();
   }
@@ -21,7 +23,20 @@ export const AppBar = ({ signIn, signOut, user, callbackUrl }: AppBarProps) => {
   }
   return (
     <div className="flex justify-between p-4 border z-30 bg-gray-50">
-      <div className="text-xl pt-2">PAYMENT APP</div>
+      <div
+        className="text-3xl font-extrabold pt-2 cursor-pointer"
+        style={{
+          background:
+            "linear-gradient(to bottom right, #60269E 0%, #03CFFC 35%, #B977FF 77%, #6508C9 100%)",
+          WebkitBackgroundClip: "text", // For Safari
+          WebkitTextFillColor: "transparent", // For Safari
+        }}
+        onClick={() => {
+          router.push("/");
+        }}
+      >
+        EASY PAY
+      </div>
       {user ? (
         <button
           onClick={async () => {
