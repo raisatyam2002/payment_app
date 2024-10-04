@@ -55,7 +55,8 @@ export default function () {
               const status = await createOnRampTransaction("hdfc", amount);
               // alert(status.token);
               window.open(
-                " http://localhost:5173/" + `?token=${status.token}`,
+                " https://mock-bank-amber.vercel.app/" +
+                  `?token=${status.token}`,
                 "_blank"
               );
               setLoading(false);
