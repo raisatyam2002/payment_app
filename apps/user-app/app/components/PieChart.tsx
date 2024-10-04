@@ -21,9 +21,12 @@ interface P2PTransactionsInterface {
 export default function PieChart({
   topFourTransactions,
 }: {
-  topFourTransactions: P2PTransactionsInterface[] | null;
+  topFourTransactions: P2PTransactionsInterface[] | undefined;
 }) {
   // if (topFourTransactions == null) alert("hi");
+  if (topFourTransactions == undefined) {
+    return <div>Loading</div>;
+  }
   console.log("four transcarion ", topFourTransactions);
 
   const labels = topFourTransactions?.map((tx) => tx.receiverId);

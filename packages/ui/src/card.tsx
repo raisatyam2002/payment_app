@@ -8,14 +8,12 @@ export function Card({
   children?: React.ReactNode;
 }): JSX.Element {
   return (
-    <div className="border p-4 relative">
+    <div className="border p-4 relative" style={{ zIndex: "-1" }}>
       <h1
         className="text-xl border-b  "
         style={{
           position: "sticky",
           top: "0",
-          background: "white",
-          zIndex: 10,
         }}
       >
         {title}

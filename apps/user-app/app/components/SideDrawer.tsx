@@ -73,6 +73,7 @@ export function SideDrawer() {
             onClose={toggleDrawer(anchor, false)}
             PaperProps={{
               sx: {
+                width: "100%",
                 top: "64px", // Adjusting the drawer's top position
                 // backgroundColor: "gray",
               },
