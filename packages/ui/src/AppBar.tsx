@@ -24,7 +24,7 @@ export const AppBar = ({ signIn, signOut, user, callbackUrl }: AppBarProps) => {
   return (
     <div className="flex justify-between p-4 border z-30 bg-gray-50">
       <div
-        className="text-3xl font-extrabold pt-2 cursor-pointer z-50"
+        className="text-3xl font-extrabold pt-2 cursor-pointer "
         style={{
           background:
             "linear-gradient(to bottom right, #60269E 0%, #03CFFC 35%, #B977FF 77%, #6508C9 100%)",
