@@ -13,7 +13,9 @@ import Chart from "../../components/Chart";
 import { SendMoneyCard } from "../../components/SendMoneyCard";
 import { P2PTransactions } from "../../components/P2PTransactions";
 import { getP2PTransactions } from "../../lib/actions/getP2Ptransactions";
-import { log } from "console";
+import { Suspense } from "react";
+import Loader from "../../components/Loader";
+import useSWR from "swr";
 import lastFourWeeks from "../../lib/actions/getLastFourWeekTransactions";
 interface P2PTransactionsInterface {
   id: number;
@@ -30,101 +32,124 @@ interface BalanceHistoryInterface {
   Date: Date;
 }
 export default function () {
-  const [transactions, setTrans] = useState<P2PTransactionsInterface[] | null>(
-    null
-  );
-  const [topFourTransactions, setTopFourTransactions] = useState<
-    P2PTransactionsInterface[] | null
-  >(null);
-  const [lastFourWeeksTransactions, setLastFourWeeksTransactions] = useState<
-    BalanceHistoryInterface[] | null
-  >(null);
   async function getTransactions() {
     const newtransactions = await getP2PTransactions();
-    newtransactions.sort((a, b) => b.id - a.id);
-    setTrans(newtransactions);
+    return newtransactions.sort((a, b) => b.id - a.id);
   }
   async function getTopFourTransactions() {
     const newtransactions = await getP2PTransactions();
     newtransactions.sort((a, b) => b.amount - a.amount);
-    setTopFourTransactions(newtransactions.slice(0, 4));
 
-    // const topFourTransactions = newtransactions.slice(0, 4);
-
-    // console.log("Top four transactions:", topFourTransactions);
+    return newtransactions.slice(0, 4);
   }
   async function getLastFourWeekBalance() {
     const transaction = await lastFourWeeks();
-    setLastFourWeeksTransactions(transaction);
-    console.log("last four weeks ", transaction);
+    return transaction;
   }
 
-  useEffect(() => {
-    getTransactions();
-    getTopFourTransactions();
-    getLastFourWeekBalance();
-  }, []);
+  const { data: topFourTransactions, error: topFourError } = useSWR(
+    "top-four-transactions",
+    getTopFourTransactions,
+    {
+      revalidateOnFocus: true,
+    }
+  );
+  const { data: transactions, error: transactionError } = useSWR(
+    "transactions",
+    getTransactions,
+    {
+      revalidateOnFocus: true,
+    }
+  );
+  const { data: lastFourWeeksTransactions, error: lastFourWeek } = useSWR(
+    "lastFourWeek",
+    getLastFourWeekBalance,
+    {
+      revalidateOnFocus: true,
+    }
+  );
   return (
     <div className="sm:flex sm:w-full ">
       <div className="sm:border-2 sm: border-gray-100 sm:w-2/3">
         <div className="sm:flex h-1/2">
-          <div className="sm:w-1/2 w-screen">
-            <PieChart topFourTransactions={topFourTransactions}></PieChart>
-          </div>
-          <div className="sm:pt-36 font-sans font-light pt-6  pb-6  ">
-            <div className=" flex gap-10 ">
-              <div className="flex ">
-                <Image className="w-16 h-16" src={purple} alt="purple" />
+          {topFourTransactions ? (
+            <>
+              <div className="sm:w-1/2 w-screen">
+                <PieChart topFourTransactions={topFourTransactions}></PieChart>
+              </div>
+              <div className="sm:pt-36 font-sans font-light pt-6  pb-6  ">
+                <div className=" flex gap-10 ">
+                  <div className="flex ">
+                    <Image className="w-16 h-16" src={purple} alt="purple" />
 
-                <div>
-                  <h4>
-                    {topFourTransactions && topFourTransactions[0]?.receiverId}
-                  </h4>
-                  <h4 className="text-center font-medium whitespace-nowrap">
-                    $ {topFourTransactions && topFourTransactions[0]?.amount}
-                  </h4>
+                    <div>
+                      <h4>
+                        {topFourTransactions &&
+                          topFourTransactions[0]?.receiverId}
+                      </h4>
+                      <h4 className="text-center font-medium whitespace-nowrap">
+                        ${" "}
+                        {topFourTransactions && topFourTransactions[0]?.amount}
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="flex ">
+                    <Image className="w-16 h-16" src={yellow} alt="yellow" />
+                    <div>
+                      <h4>
+                        {topFourTransactions &&
+                          topFourTransactions[1]?.receiverId}
+                      </h4>
+                      <h4 className="text-center font-medium whitespace-nowrap">
+                        ${" "}
+                        {topFourTransactions && topFourTransactions[1]?.amount}
+                      </h4>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex ">
-                <Image className="w-16 h-16" src={yellow} alt="yellow" />
-                <div>
-                  <h4>
-                    {topFourTransactions && topFourTransactions[1]?.receiverId}
-                  </h4>
-                  <h4 className="text-center font-medium whitespace-nowrap">
-                    $ {topFourTransactions && topFourTransactions[1]?.amount}
-                  </h4>
+                <div className=" flex gap-10 mt-10">
+                  <div className="flex">
+                    <Image className="w-16 h-16" src={green} alt="purple" />
+                    <div>
+                      <h4>
+                        {topFourTransactions &&
+                          topFourTransactions[2]?.receiverId}
+                      </h4>
+                      <h4 className="text-center font-medium whitespace-nowrap">
+                        ${" "}
+                        {topFourTransactions && topFourTransactions[2]?.amount}
+                        .0
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="flex ">
+                    <Image className="w-16 h-16" src={blue} alt="yellow" />
+                    <div className="">
+                      <h4>
+                        {topFourTransactions &&
+                          topFourTransactions[3]?.receiverId}
+                      </h4>
+                      <h4 className="text-center font-medium whitespace-nowrap">
+                        ${" "}
+                        {topFourTransactions && topFourTransactions[3]?.amount}
+                      </h4>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className=" flex gap-10 mt-10">
-              <div className="flex">
-                <Image className="w-16 h-16" src={green} alt="purple" />
-                <div>
-                  <h4>
-                    {topFourTransactions && topFourTransactions[2]?.receiverId}
-                  </h4>
-                  <h4 className="text-center font-medium whitespace-nowrap">
-                    $ {topFourTransactions && topFourTransactions[2]?.amount}.0
-                  </h4>
-                </div>
-              </div>
-              <div className="flex ">
-                <Image className="w-16 h-16" src={blue} alt="yellow" />
-                <div className="">
-                  <h4>
-                    {topFourTransactions && topFourTransactions[3]?.receiverId}
-                  </h4>
-                  <h4 className="text-center font-medium whitespace-nowrap">
-                    $ {topFourTransactions && topFourTransactions[3]?.amount}
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
+              </div>{" "}
+            </>
+          ) : (
+            <Loader></Loader>
+          )}
         </div>
         <div className="" style={{ height: "320px", width: "100%" }}>
-          <Chart lastFourWeeksTransactions={lastFourWeeksTransactions}></Chart>
+          {lastFourWeeksTransactions ? (
+            <Chart
+              lastFourWeeksTransactions={lastFourWeeksTransactions}
+            ></Chart>
+          ) : (
+            <Loader></Loader>
+          )}
         </div>
       </div>
       <div>
@@ -132,7 +157,11 @@ export default function () {
           <Image src={creditCard} alt="credit Card"></Image>
         </div>
         <div className="h-96 m-2">
-          <P2PTransactions transactions={transactions}></P2PTransactions>
+          {transactions ? (
+            <P2PTransactions transactions={transactions}></P2PTransactions>
+          ) : (
+            <Loader></Loader>
+          )}
         </div>
       </div>
     </div>

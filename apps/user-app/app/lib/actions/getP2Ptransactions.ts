@@ -10,7 +10,9 @@ interface P2PTransactionsInterface {
   time: Date;
   receiverNumber: string;
 }
-export async function getP2PTransactions() {
+export async function getP2PTransactions(): Promise<
+  P2PTransactionsInterface[]
+> {
   const session = await getServerSession(authOptions);
   const tx = await db.p2P.findMany({
     where: {

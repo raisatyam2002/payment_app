@@ -32,7 +32,7 @@ interface BalanceHistoryInterface {
 export default function Chart({
   lastFourWeeksTransactions,
 }: {
-  lastFourWeeksTransactions: BalanceHistoryInterface[] | null;
+  lastFourWeeksTransactions: BalanceHistoryInterface[] | null | undefined;
 }) {
   const [labels, setLabels] = useState<any>();
   const [account, setAccount] = useState<any>();

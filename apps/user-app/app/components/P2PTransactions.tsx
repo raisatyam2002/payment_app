@@ -13,7 +13,7 @@ interface P2PTransactionsInterface {
 export function P2PTransactions({
   transactions,
 }: {
-  transactions: P2PTransactionsInterface[] | null;
+  transactions: P2PTransactionsInterface[] | null | undefined;
 }) {
   if (transactions == null) {
     return (
@@ -35,7 +35,7 @@ export function P2PTransactions({
             {transactions?.map((t) => (
               <div className="flex justify-between">
                 <div key={t.id}>
-                  <div className="text-sm">SEND INR to {t.receiverNumber}</div>
+                  <div className="text-sm">SENT INR to {t.receiverNumber}</div>
                   <div className="text-slate-600 text-xs">
                     {t.time.toDateString()}
                   </div>

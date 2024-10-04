@@ -14,8 +14,6 @@ export function Card({
         style={{
           position: "sticky",
           top: "0",
-          background: "white",
-          zIndex: 10,
         }}
       >
         {title}

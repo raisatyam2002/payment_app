@@ -53,7 +53,7 @@ export default function Login() {
           }}
           disabled={loading}
         >
-          Login
+          {loading ? "Logging in..." : "Log in"}
         </Button>
         <h1>
           Don't have an account?{" "}
@@ -61,7 +61,7 @@ export default function Login() {
             href="/auth/signup"
             className="cursor hover:underline decoration-gray-500"
           >
-            SignUp
+            Sign up
           </Link>
         </h1>
       </div>

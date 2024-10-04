@@ -2,20 +2,14 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
+// import Loader from "./components/Loader";
+import HomePage from "./components/Home";
 export default function Home() {
-  const { data: session, status } = useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (status === "loading") return;
-
-    if (session?.user) {
-      router.push("/dashboard");
-    } else {
-      signIn(undefined, { callbackUrl: window.location.href });
-    }
-  }, [session, status, router]);
-
-  return <div>Loading...</div>;
+  const { data, status } = useSession();
+  if (status == "authenticated") {
+    router.push("/dashboard");
+    return <></>;
+  }
+  return <HomePage></HomePage>;
 }

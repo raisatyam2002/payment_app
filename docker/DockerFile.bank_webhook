@@ -8,5 +8,5 @@ COPY packages ./packages
 
 RUN npm install
 RUN cd packages/db && npx prisma generate  cd ../..
-RUN npm run build
+RUN cd apps/bank_webhook && npm run build && cd ../..
 CMD ["npm", "run", "start-bank-webhook"]
