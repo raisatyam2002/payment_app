@@ -8,7 +8,7 @@ export function Card({
   children?: React.ReactNode;
 }): JSX.Element {
   return (
-    <div className="border p-4 relative" style={{ zIndex: "-1" }}>
+    <div className="border p-4 relative">
       <h1
         className="text-xl border-b  "
         style={{
