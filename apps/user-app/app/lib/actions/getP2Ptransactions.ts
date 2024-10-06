@@ -31,7 +31,7 @@ export async function getP2PTransactions(): Promise<
       id: t.id,
       senderId: t.senderId,
       receiverId: t.receiverId,
-      amount: t.amount,
+      amount: t.amount / 100,
       time: t.startTime,
       receiverNumber: t.receiver.phone,
     };
