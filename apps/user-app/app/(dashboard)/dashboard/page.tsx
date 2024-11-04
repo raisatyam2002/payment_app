@@ -38,7 +38,9 @@ export default function () {
   }
   async function getTopFourTransactions() {
     const newtransactions = await getP2PTransactions();
+
     newtransactions.sort((a, b) => b.amount - a.amount);
+    // alert(newtransactions[2]?.receiverNumber);
 
     return newtransactions.slice(0, 4);
   }
@@ -85,7 +87,7 @@ export default function () {
                     <div>
                       <h4>
                         {topFourTransactions &&
-                          topFourTransactions[0]?.receiverId}
+                          topFourTransactions[0]?.receiverNumber}
                       </h4>
                       <h4 className="text-center font-medium whitespace-nowrap">
                         ${" "}
@@ -98,7 +100,7 @@ export default function () {
                     <div>
                       <h4>
                         {topFourTransactions &&
-                          topFourTransactions[1]?.receiverId}
+                          topFourTransactions[1]?.receiverNumber}
                       </h4>
                       <h4 className="text-center font-medium whitespace-nowrap">
                         ${" "}
@@ -113,7 +115,7 @@ export default function () {
                     <div>
                       <h4>
                         {topFourTransactions &&
-                          topFourTransactions[2]?.receiverId}
+                          topFourTransactions[2]?.receiverNumber}
                       </h4>
                       <h4 className="text-center font-medium whitespace-nowrap">
                         ${" "}
@@ -127,7 +129,7 @@ export default function () {
                     <div className="">
                       <h4>
                         {topFourTransactions &&
-                          topFourTransactions[3]?.receiverId}
+                          topFourTransactions[3]?.receiverNumber}
                       </h4>
                       <h4 className="text-center font-medium whitespace-nowrap">
                         ${" "}

@@ -41,9 +41,9 @@ export default function PieChart({
         label: "Expenses",
         data: amountData, // Data values for each category
         backgroundColor: [
+          "#8D79F6",
+          "#FEBD38",
           "#68EE76", // Color for Online Shopping
-          "#FEBD38", // Color for Entertainment
-          "#8D79F6", // Color for Car Service
           "#4FBAF0", // Color for Households
         ],
 

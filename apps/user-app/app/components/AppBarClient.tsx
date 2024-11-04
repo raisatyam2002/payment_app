@@ -9,7 +9,7 @@ export const AppBarClient = () => {
   const nextAuthUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL;
   console.log("scsd ", nextAuthUrl);
   return (
-    <div className="fixed top-0 left-0 w-full  z-50;  ">
+    <div className="fixed top-0 left-0 w-full  ;  ">
       <AppBar
         signIn={signIn}
         signOut={() => signOut()}

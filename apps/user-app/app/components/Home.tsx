@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Cashout from "../img/Cashout.png";
 import { useRouter } from "next/navigation";
+import paymentAnimation from "../payment-done.json";
 export default function HomePage() {
   const router = useRouter();
   return (
@@ -14,10 +15,10 @@ export default function HomePage() {
         }}
       ></div>
 
-      <div className="relative sm:grid sm:grid-cols-2 h-full z-10">
-        <div className="flex flex-col justify-center items-start p-8 md:p-16 lg:p-24">
-          <h1 className="text-4xl font-bold ">Payments made easy</h1>
-          <h1 className="text-4xl font-bold mb-4">
+      <div className="relative sm:grid sm:grid-cols-2 h-full z-10 pt-10">
+        <div className="flex flex-col  p-8 md:p-16 lg:p-20 ">
+          <h1 className="text-6xl font-bold ">Payments made easy</h1>
+          <h1 className="text-6xl font-bold mb-4">
             on{" "}
             <span
               style={{
@@ -46,7 +47,7 @@ export default function HomePage() {
             Get Started
           </button>
         </div>
-        <div className="flex justify-center items-center p-8 md:p-16 lg:p-24">
+        <div className="flex  p-8 md:p-16 lg:p-24">
           <Image
             className="w-[700px] h-[350px] object-contain"
             src={Cashout}
