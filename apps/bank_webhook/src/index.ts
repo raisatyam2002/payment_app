@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.json({
-    message: "hi from server",
+    message: "hi from bank server",
   });
 });
 app.post("/hdfcWebhook", async (req, res) => {
