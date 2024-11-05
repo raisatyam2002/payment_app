@@ -4,6 +4,7 @@ import { Button } from "@repo/ui/button";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 export default function Login() {
   const router = useRouter();
   console.log(process.env.NEXT_PUBLIC_NEXTAUTH_URL);
@@ -20,9 +21,9 @@ export default function Login() {
     });
     if (result?.error) {
       console.error("Login error:", result.error);
-      alert(result.error);
+      toast.error(result.error);
     } else {
-      alert("logged in successfully");
+      toast.success("logged in successfully");
       router.push("/dashboard");
     }
     setLoading(false);

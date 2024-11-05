@@ -23,38 +23,58 @@ app.post("/hdfcWebhook", async (req, res) => {
     amount: req.body.amount,
   };
   try {
-    await db.balance.upsert({
-      where: {
-        userId: Number(paymentInformation.userId),
-      },
-      create: {
-        userId: Number(paymentInformation.userId),
-        amount: paymentInformation.amount * 100,
-        locked: 200,
-      },
-      update: {
-        amount: {
-          increment: paymentInformation.amount * 100,
-        },
-      },
-    });
-    await db.onRampTransaction.update({
+    const onRamp = await db.onRampTransaction.findUnique({
       where: {
         token: paymentInformation.token,
       },
-      data: {
-        status: "Success",
-      },
     });
-    res.status(200).json({
-      message: "captured",
-      success: true,
-    });
+    console.log("onRamp ", onRamp);
+
+    if (onRamp?.status == "Processing") {
+      await db.balance.upsert({
+        where: {
+          userId: Number(paymentInformation.userId),
+        },
+        create: {
+          userId: Number(paymentInformation.userId),
+          amount: paymentInformation.amount * 100,
+          locked: 200,
+        },
+        update: {
+          amount: {
+            increment: paymentInformation.amount * 100,
+          },
+        },
+      });
+      await db.onRampTransaction.update({
+        where: {
+          token: paymentInformation.token,
+        },
+        data: {
+          status: "Success",
+        },
+      });
+      return res.status(200).json({
+        message: "transaction completed",
+        success: true,
+      });
+    } else if (onRamp?.status == "Success") {
+      return res.status(201).json({
+        success: false,
+        message: "transaction already done",
+      });
+    } else {
+      return res.status(201).json({
+        success: false,
+        message: "invalid transaction",
+      });
+    }
   } catch (error) {
     console.log(error);
 
-    res.status(401).json({
-      message: "not captured",
+    return res.status(401).json({
+      success: false,
+      message: "transaction failed ",
     });
   }
 });

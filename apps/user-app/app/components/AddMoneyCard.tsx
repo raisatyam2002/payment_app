@@ -1,25 +1,44 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Card } from "@repo/ui/card";
 import { Select } from "@repo/ui/select";
 import { useState } from "react";
 import { TextInput } from "@repo/ui/textInput";
 import { Button } from "@repo/ui/button";
-
+import { PaymentProcessingAnimation } from "../components/PaymentProcessingAnimation";
 import { createOnRampTransaction } from "../lib/actions/createOnRampTransactions";
-const SUPPORTED_BANKS = [
-  {
-    id: "1",
-    name: "HDFC Bank",
-    redirectUrl: "https://netbanking.hdfcbank.com",
-  },
-];
+import { checkTransactionStatus } from "../lib/actions/checkTransactionStatus";
+import { toast } from "react-toastify";
 export default function () {
-  const [redirectUrl, setRedirectUrl] = useState(
-    SUPPORTED_BANKS[0]?.redirectUrl
-  );
   const [amount, setAmount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+  const [paymentAnimation, setPaymentAnimation] = useState(false);
+  const [token, setToken] = useState<string | undefined>();
+  const statusMessages = {
+    Success: () => toast.success("Money transferred"),
+    Failure: () =>
+      toast.error("Error while transferring money, try again after some time"),
+  };
+  useEffect(() => {
+    let pollingInterval: NodeJS.Timeout;
+
+    if (token) {
+      pollingInterval = setInterval(async () => {
+        const status = await checkTransactionStatus(token);
+
+        if (status === "Success" || status === "Failure") {
+          statusMessages[status]?.();
+          clearInterval(pollingInterval);
+          setPaymentAnimation(false);
+        }
+      }, 3000);
+    }
+    return () => clearInterval(pollingInterval);
+  }, [token]);
+
+  if (paymentAnimation) {
+    return <PaymentProcessingAnimation></PaymentProcessingAnimation>;
+  }
   return (
     <Card title="Add Money">
       <div className="w-full">
@@ -33,15 +52,10 @@ export default function () {
         />
         <div className="py-4 text-left">Bank</div>
         <Select
-          onSelect={(value: any) => {
-            setRedirectUrl(
-              SUPPORTED_BANKS.find((x) => x.name === value)?.redirectUrl || ""
-            );
+          option={{
+            key: "1",
+            value: "HDFC BANK",
           }}
-          options={SUPPORTED_BANKS.map((x) => ({
-            key: x.name,
-            value: x.name,
-          }))}
         />
         <div className="flex justify-center pt-4">
           <Button
@@ -52,13 +66,24 @@ export default function () {
                 setLoading(false);
                 return;
               }
-              const status = await createOnRampTransaction("hdfc", amount);
-              // alert(status.token);
+              const onRamp = await createOnRampTransaction("hdfc", amount);
+              if (!onRamp.token) {
+                console.error(
+                  onRamp.message ||
+                    "An error occurred while processing your transaction."
+                );
+                toast.error("error occurred while processing your transaction");
+                setLoading(false);
+                return;
+              }
+              setToken(onRamp.token);
+
               window.open(
-                "https://mock-bank-amber.vercel.app/" +
-                  `?token=${status.token}`,
+                process.env.NEXT_PUBLIC_BANK_WEBHOOK +
+                  `?token=${onRamp.queryParams}`,
                 "_blank"
               );
+              setPaymentAnimation(true);
               setLoading(false);
             }}
           >
