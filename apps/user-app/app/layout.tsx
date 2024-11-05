@@ -4,6 +4,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { AppBarClient } from "./components/AppBarClient";
 
+import ToastContainerWrapper from "./toastContainer";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -28,7 +30,10 @@ export default function RootLayout({
       <Providers>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
           <AppBarClient></AppBarClient>
-          <div className="pt-20  h-full">{children}</div>
+          <div className="pt-20  h-full">
+            {children}
+            <ToastContainerWrapper></ToastContainerWrapper>
+          </div>
         </body>
       </Providers>
     </html>

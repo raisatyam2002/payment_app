@@ -3,7 +3,7 @@ import db from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import sjcl from "sjcl";
-import { log } from "console";
+
 export async function createOnRampTransaction(
   provider: string,
   amount: number
@@ -26,8 +26,6 @@ export async function createOnRampTransaction(
       },
     });
     const password = "your-encryption-password";
-
-    // Object to encrypt
     const data = {
       user_identifier: session.user.id,
       token: token,
@@ -57,7 +55,8 @@ export async function createOnRampTransaction(
     );
     console.log(JSON.parse(decryptedData));
     return {
-      token: urlSafeEncryptedData,
+      queryParams: urlSafeEncryptedData || "",
+      token: token,
     };
   }
 }

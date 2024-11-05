@@ -5,6 +5,7 @@ import { TextInput } from "@repo/ui/textInput";
 import { Button } from "@repo/ui/button";
 import { useState } from "react";
 import sendMoney from "../lib/actions/sendMoney";
+import { toast } from "react-toastify";
 export function SendMoneyCard() {
   const [number, setNumber] = useState<number>(0);
   const [amount, setAmount] = useState<number>(0);
@@ -33,12 +34,17 @@ export function SendMoneyCard() {
                 if (loading) return;
                 setLoading(true);
                 if (amount == 0 || number == 0) {
-                  alert("Enter number and amount");
+                  toast.error("Enter number and amount");
                   setLoading(false);
                   return;
                 }
                 const res = await sendMoney({ number, amount });
-                alert(res.message);
+                if (res.success) {
+                  toast.success(res.message);
+                } else {
+                  toast.error(res.message);
+                }
+
                 setLoading(false);
               }}
             >
