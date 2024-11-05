@@ -77,6 +77,12 @@ export default function () {
                 return;
               }
               setToken(onRamp.token);
+              console.log(
+                "Bank Webhook URL:",
+                process.env.NEXT_PUBLIC_BANK_WEBHOOK
+              );
+              const webhookUrl = `${process.env.NEXT_PUBLIC_BANK_WEBHOOK}?token=${onRamp.queryParams}`;
+              console.log("Webhook URL:", webhookUrl);
 
               window.open(
                 process.env.NEXT_PUBLIC_BANK_WEBHOOK +
