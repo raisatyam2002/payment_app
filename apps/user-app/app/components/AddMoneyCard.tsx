@@ -85,7 +85,7 @@ export default function () {
               console.log("Webhook URL:", webhookUrl);
 
               window.open(
-                process.env.NEXT_PUBLIC_BANK_WEBHOOK +
+                "https://mock-bank-amber.vercel.app/" +
                   `?token=${onRamp.queryParams}`,
                 "_blank"
               );
