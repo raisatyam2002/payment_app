@@ -5,7 +5,7 @@ import Link from "next/link";
 import { SignUp } from "../../lib/actions/SignUp";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { isDataView } from "util/types";
+import { toast } from "react-toastify";
 export default function SignUppage() {
   const userSignupObjet = z.object({
     name: z.string(),
@@ -30,14 +30,14 @@ export default function SignUppage() {
     if (isDataValid.success) {
       const data = await SignUp({ name, phoneNumber, password });
       if (data.error) {
-        alert(data.error);
+        toast.error(data.error);
       } else {
-        alert(data.message);
+        toast.success(data.message);
         router.push("/auth/login");
       }
     } else {
       console.log(isDataValid);
-      alert(
+      toast.error(
         "phoneNumber must  be of 10 digit and password must be of 5 alphabets"
       );
     }
