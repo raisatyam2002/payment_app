@@ -42,7 +42,11 @@ export default async function sendMoney({
       },
     });
     if (!senderBalance || senderBalance.amount < amount) {
-      throw new Error("Insufficient funds");
+      console.log("debug");
+      return {
+        success: false,
+        message: "payment unsuccesfull",
+      };
     } else {
       // await new Promise((r) => setTimeout(r, 4000));
       await tx.balance.update({
@@ -81,7 +85,12 @@ export default async function sendMoney({
     }
   });
   console.log("tx is ", tx);
-
+  if (!tx?.success) {
+    return {
+      success: false,
+      message: "payment unsuccesfull",
+    };
+  }
   return {
     success: true,
     message: "payment succesfull",
